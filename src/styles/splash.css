@@ -1,0 +1,93 @@
+/*src\screens\Splash\splash.css*/
+:root{
+  --blue:#2468B1;
+  --radius-xl: 20px;
+  --shadow-1: 0 10px 36px rgba(0,0,0,.18);
+}
+
+/* Camada de splash estática (sem slide geral) */
+.splash-layer{
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: linear-gradient(145deg, #0096FF 0%, #00A36C 50%, #FFD700 100%);
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity .5s ease;
+}
+
+/* Quando for sair, só faz fade */
+html.splash-leaving .splash-layer{
+  opacity: 0;
+}
+
+/* Card branco */
+.splash-card{
+  background: #fff;
+  border-radius: var(--radius-xl);
+  padding: 28px 22px;
+  text-align: center;
+  box-shadow: var(--shadow-1);
+  max-width: 320px;
+  width: 100%;
+}
+
+
+
+/* Títulos */
+.splash-title{
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--blue);
+}
+.splash-subtitle{
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: #4e5a6b;
+}
+
+/* Linhas que animam (sobem) */
+.splash-tagline{
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #2e3440;
+}
+.splash-system{
+  margin: 0;
+  font-size: 14px;
+  color: var(--blue);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(36,104,177,.35);
+  padding-bottom: 1px;
+}
+
+/* Estado inicial: abaixo e transparente */
+.slide-up{
+  opacity: 0;
+  transform: translateY(14px);
+  will-change: transform, opacity;
+}
+
+/* Dispara a animação nos textos quando a splash monta */
+html.splash-mounted .slide-up{
+  animation: slideUp .48s cubic-bezier(.22,.8,.25,1) forwards;
+  animation-delay: var(--d, 0ms); /* delay específico via style inline */
+}
+
+@keyframes slideUp{
+  from{ opacity: 0; transform: translateY(14px); }
+  to  { opacity: 1; transform: translateY(0); }
+}
+
+/* Acessibilidade: reduz/retira animações */
+@media (prefers-reduced-motion: reduce){
+  .splash-layer{ transition: none !important; }
+  .slide-up{
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
